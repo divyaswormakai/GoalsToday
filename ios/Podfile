@@ -79,6 +79,8 @@ target 'Goals' do
 
   pod 'RealmJS', :path => '../node_modules/realm'
 
+  pod 'react-native-background-timer', :path => '../node_modules/react-native-background-timer'
+
   target 'GoalsTests' do
     inherit! :complete
     # Pods for testing

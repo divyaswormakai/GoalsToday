@@ -14,6 +14,8 @@ import GoalCard from '../shared/goalCard';
 import AddForm from '../shared/addForm';
 
 import Realm from 'realm';
+// import BackgroundTimer from 'react-native-background-timer';
+import BackgroundJob from 'react-native-background-job';
 
 const goalSchema = {
 	name: 'Goals',
@@ -30,19 +32,44 @@ const realm = new Realm({
 	schema: [goalSchema],
 });
 
+const backgroundJob = {
+	jobKey: 'addGoalKey',
+	job: () => console.log('Running in background'),
+};
+
+BackgroundJob.register(backgroundJob);
+
+var backgroundSched = {jobKey: 'addGoalKey', timeout: 300000, period: 5000};
 export default function Overview({navigation}) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [goals, setGoals] = useState([]);
 
 	useEffect(() => {
 		ViewAllGoals();
+		// BackgroundTimer.runBackgroundTimer(() => {
+		// 	AddGoal({title: 'From countdown', description: 'blah blah'});
+		// 	console.log('Adding from countdown');
+		// }, 5000);
+
+		let i = 0;
+		BackgroundJob.schedule(backgroundSched)
+			.then(() => {
+				AddGoal({
+					title: 'From countdown numbered' + i.toString(),
+					description: 'blah blah',
+				});
+				console.log('Adding from countdown');
+				i += 1;
+			})
+			.catch(err => {
+				console.log(err);
+			});
 	}, []);
 
 	const ViewAllGoals = () => {
 		const realmGoals = realm.objects('Goals');
 		console.log('Viewing all goals');
 		setGoals(realmGoals);
-		console.log(realmGoals);
 	};
 	const AddGoal = ({title, description}) => {
 		console.log(title, description);
