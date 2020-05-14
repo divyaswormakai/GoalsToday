@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.pilloxa.backgroundjob.BackgroundJobPackage;
 import com.ocetnik.timer.BackgroundTimerPackage;
 import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
